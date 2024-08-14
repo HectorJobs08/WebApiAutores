@@ -25,7 +25,14 @@ namespace WebAPIAutores.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Author>> GetAuthor(int id)
         {
-            return await context.Authors.FindAsync(id);
+            var author = await context.Authors.FindAsync(id);
+
+            if (author == null)
+            {
+                return NotFound("No se encontro el autor");
+            }
+
+            return Ok(author);
         }
 
 
