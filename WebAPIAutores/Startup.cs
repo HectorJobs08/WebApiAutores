@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Text.Json.Serialization;
 
 namespace WebAPIAutores
 {
@@ -25,7 +26,7 @@ namespace WebAPIAutores
 
             var serverVersion = ServerVersion.AutoDetect(connectionString);
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseMySql(connectionString, serverVersion)

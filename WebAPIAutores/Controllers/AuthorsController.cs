@@ -19,13 +19,13 @@ namespace WebAPIAutores.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Author>>> Get()
         {
-            return await context.Authors.ToListAsync();
+            return await context.Authors.Include(x => x.Books).ToListAsync();
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Author>> GetAuthor(int id)
         {
-            var author = await context.Authors.FindAsync(id);
+            var author = await context.Authors.Include(x => x.Books).FirstOrDefaultAsync(x => x.Id == id);
 
             if (author == null)
             {
